@@ -35,6 +35,8 @@ public:
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float TMaxSpeed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float TMaxReverseSpeed;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		float TCurrentSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -51,13 +53,31 @@ protected:
 		float CurrentLeanAngle;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float LeanInterpSpeed;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		bool brakeApplied;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float BrakeFactor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float BrakeInterpSpeed;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		int currentGear = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+		int maxGear = 6;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		TArray<float> gearToSpeedMapping;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float maxBikeSpeed;
 
 	void FindThrottle(float Axis);
 	void FindSteer(float Axis);
+	void ApplyBrake(float Axis);
 	void FindLean();
 
 	void ApplySteerToBike();
 	void ApplyThrottleToBike();
+
+	void DecrementGear();
+	void IncrementGear();
 
 protected:
 	UPROPERTY(EditAnywhere)

@@ -19,6 +19,10 @@ AMyBike::AMyBike()
 	UCameraComponent* camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	camera->SetupAttachment(springArm);
 	springArm->SetupAttachment(RootComponent);
+
+	// Gear system
+	gearToSpeedMapping.Init(0, maxGear);
+	TMaxSpeed = 0;
 }
 
 // Called when the game starts or when spawned
@@ -46,11 +50,19 @@ void AMyBike::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 	InputComponent->BindAxis("Throttle", this, &AMyBike::FindThrottle);
 	InputComponent->BindAxis("Steer", this, &AMyBike::FindSteer);
+	InputComponent->BindAxis("Brake", this, &AMyBike::ApplyBrake);
+	
+	InputComponent->BindAction("GearUp", IE_Pressed, this,&AMyBike::IncrementGear);
+	InputComponent->BindAction("GearDown", IE_Pressed, this, & AMyBike::DecrementGear);
 }
 
 void AMyBike::FindThrottle(float Axis)
 {
-	TCurrentSpeed = FMath::FInterpTo(TCurrentSpeed, Axis * TMaxSpeed, FApp::GetDeltaTime(), TInterpSpeed);
+	if (!brakeApplied)
+	{
+		float CurrentSpeed = FMath::FInterpTo(TCurrentSpeed, Axis * TMaxSpeed, FApp::GetDeltaTime(), TInterpSpeed);
+		TCurrentSpeed = FMath::Clamp(CurrentSpeed, TMaxReverseSpeed, TMaxSpeed);
+	}
 }
 
 void AMyBike::FindSteer(float Axis)
@@ -66,7 +78,7 @@ void AMyBike::FindLean()
 void AMyBike::ApplyThrottleToBike()
 {
 	FVector deltaLoc = GetActorForwardVector() * TCurrentSpeed * FApp::GetDeltaTime();
-	AddActorWorldOffset(deltaLoc, true);
+	AddActorWorldOffset(deltaLoc, false, nullptr, ETeleportType::TeleportPhysics);
 }
 
 void AMyBike::ApplySteerToBike()
@@ -74,5 +86,33 @@ void AMyBike::ApplySteerToBike()
 	FindLean();
 	float steer = TCurrentSpeed * CurrentSteeringAngle * SpeedSteeringToRotationFactor * FApp::GetDeltaTime();
 	float yaw = steer + GetActorRotation().Yaw;
-	SetActorRelativeRotation(FRotator(0.0f, yaw, CurrentLeanAngle), true);
+	SetActorRelativeRotation(FRotator(0.0f, yaw, CurrentLeanAngle), false, nullptr,ETeleportType::TeleportPhysics);
+}
+
+void AMyBike::ApplyBrake(float Axis)
+{
+	if (Axis != 0.0f)
+	{
+		brakeApplied = true;
+		float targetSpeed = TCurrentSpeed - (Axis * BrakeFactor);
+		float newCurrentSpeed = FMath::FInterpTo(TCurrentSpeed, targetSpeed, FApp::GetDeltaTime(), BrakeInterpSpeed);
+		// Just stop when brake applied during rev no interp needed
+		TCurrentSpeed = FMath::Clamp(newCurrentSpeed, 0.0f, TMaxSpeed);
+	}
+	else
+	{
+		brakeApplied = false;
+	}
+}
+
+void AMyBike::IncrementGear()
+{
+	currentGear = FMath::Clamp(currentGear + 1, 0, maxGear - 1);
+	TMaxSpeed = (gearToSpeedMapping[currentGear] / gearToSpeedMapping[gearToSpeedMapping.Num() - 1]) * maxBikeSpeed;
+}
+
+void AMyBike::DecrementGear()
+{
+	currentGear = FMath::Clamp(currentGear - 1, 0, maxGear - 1);
+	TMaxSpeed = (gearToSpeedMapping[currentGear] / gearToSpeedMapping[gearToSpeedMapping.Num() - 1]) * maxBikeSpeed;
 }
