@@ -67,12 +67,12 @@ void AMyBike::FindThrottle(float Axis)
 
 void AMyBike::FindSteer(float Axis)
 {
-	CurrentSteeringAngle = FMath::FInterpTo(CurrentSteeringAngle, Axis * MaxSteeringAngle, FApp::GetDeltaTime(), SInterpSpeed);
+	CurrentSteeringAngle = FMath::FInterpTo(CurrentSteeringAngle, Axis * MaxSteeringAngle * FMath::FloatSelect((TCurrentSpeed < 0) ? 1.0 : -1.0, 2.0, 1.0), FApp::GetDeltaTime(), SInterpSpeed);
 }
 
 void AMyBike::FindLean()
 {
-	CurrentLeanAngle = FMath::FInterpTo(CurrentLeanAngle, ((TCurrentSpeed / TMaxSpeed) * CurrentSteeringAngle), FApp::GetDeltaTime(), LeanInterpSpeed);
+	CurrentLeanAngle = FMath::FInterpTo(CurrentLeanAngle, ((TCurrentSpeed / maxBikeSpeed) * CurrentSteeringAngle), FApp::GetDeltaTime(), LeanInterpSpeed);
 }
 
 void AMyBike::ApplyThrottleToBike()
@@ -115,4 +115,19 @@ void AMyBike::DecrementGear()
 {
 	currentGear = FMath::Clamp(currentGear - 1, 0, maxGear - 1);
 	TMaxSpeed = (gearToSpeedMapping[currentGear] / gearToSpeedMapping[gearToSpeedMapping.Num() - 1]) * maxBikeSpeed;
+}
+
+float AMyBike::GetTCurrentSpeed()
+{
+	return TCurrentSpeed;
+}
+
+float AMyBike::GetCurrentSteeringAngle()
+{
+	return CurrentSteeringAngle;
+}
+
+float AMyBike::GetMaxPossibleSpeed()
+{
+	return maxBikeSpeed;
 }

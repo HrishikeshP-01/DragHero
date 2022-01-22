@@ -37,7 +37,7 @@ protected:
 		float TMaxSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float TMaxReverseSpeed;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly) // Changed this from read only & visible to get this in the anim classs
 		float TCurrentSpeed;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float TInterpSpeed;
@@ -84,4 +84,9 @@ protected:
 		USkeletalMeshComponent* BikeMesh;
 	UPROPERTY(EditAnywhere)
 		USpringArmComponent* springArm;
+
+public:
+	float GetTCurrentSpeed();
+	float GetCurrentSteeringAngle();
+	float GetMaxPossibleSpeed();
 };
