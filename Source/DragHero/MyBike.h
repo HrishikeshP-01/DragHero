@@ -10,6 +10,8 @@
 #include "Camera/CameraComponent.h"
 #include "MyBike.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FGearChanged, float, gearId);
+
 UCLASS()
 class DRAGHERO_API AMyBike : public APawn
 {
@@ -67,6 +69,8 @@ protected:
 		TArray<float> gearToSpeedMapping;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float maxBikeSpeed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+		float fuel = 1;
 
 	void FindThrottle(float Axis);
 	void FindSteer(float Axis);
@@ -89,4 +93,10 @@ public:
 	float GetTCurrentSpeed();
 	float GetCurrentSteeringAngle();
 	float GetMaxPossibleSpeed();
+	float GetSpeedInGearSpeedFormat();
+	float GetFuel();
+
+public:
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+		FGearChanged gearChanged;
 };

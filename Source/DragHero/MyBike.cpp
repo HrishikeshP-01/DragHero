@@ -109,12 +109,16 @@ void AMyBike::IncrementGear()
 {
 	currentGear = FMath::Clamp(currentGear + 1, 0, maxGear - 1);
 	TMaxSpeed = (gearToSpeedMapping[currentGear] / gearToSpeedMapping[gearToSpeedMapping.Num() - 1]) * maxBikeSpeed;
+	
+	gearChanged.Broadcast(currentGear);
 }
 
 void AMyBike::DecrementGear()
 {
 	currentGear = FMath::Clamp(currentGear - 1, 0, maxGear - 1);
 	TMaxSpeed = (gearToSpeedMapping[currentGear] / gearToSpeedMapping[gearToSpeedMapping.Num() - 1]) * maxBikeSpeed;
+
+	gearChanged.Broadcast(currentGear);
 }
 
 float AMyBike::GetTCurrentSpeed()
@@ -130,4 +134,14 @@ float AMyBike::GetCurrentSteeringAngle()
 float AMyBike::GetMaxPossibleSpeed()
 {
 	return maxBikeSpeed;
+}
+
+float AMyBike::GetSpeedInGearSpeedFormat()
+{
+	return TCurrentSpeed / maxBikeSpeed * gearToSpeedMapping[gearToSpeedMapping.Num() - 1];
+}
+
+float AMyBike::GetFuel()
+{
+	return fuel;
 }
