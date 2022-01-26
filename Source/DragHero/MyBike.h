@@ -95,6 +95,8 @@ public:
 	float GetMaxPossibleSpeed();
 	float GetSpeedInGearSpeedFormat();
 	float GetFuel();
+	UFUNCTION(BlueprintCallable)
+		TArray<FVector> GetSocketLocation();
 
 public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")

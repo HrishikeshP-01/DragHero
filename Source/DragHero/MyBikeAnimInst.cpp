@@ -10,6 +10,8 @@ void UMyBikeAnimInst::UpdateParameters()
 	if (pawn)
 	{
 		AMyBike* bike = Cast<AMyBike>(pawn);
+		if (!bike)
+			return;
 		speed = bike->GetTCurrentSpeed();
 		steering = bike->GetCurrentSteeringAngle() * FMath::GetMappedRangeValueClamped(TRange<float>(0, bike->GetMaxPossibleSpeed()), TRange<float>(1, 0.1f), speed);
 	}
@@ -20,4 +22,3 @@ void UMyBikeAnimInst::FindRotAngle()
 {
 	wheelRotAngle += FMath::RadiansToDegrees((speed / wheelRadius) * (float)FApp::GetDeltaTime());
 }
-
