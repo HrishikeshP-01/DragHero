@@ -19,28 +19,32 @@ protected:
 		float maxLean;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float leanInterpTime = 0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly)
 		float lean;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly)
 		float rt_legLean = 0;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly)
 		float lt_legLean = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float maxLegLean = 0;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		float percentLegLean;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly)
 		FVector rh_loc;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(BlueprintReadOnly)
 		FVector lh_loc;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		FVector lh_elbow;
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-		FVector rh_elbow;
-	UPROPERTY(BlueprintReadOnly)
 		FVector rFootRest;
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 		FVector lFootRest;
+	UPROPERTY(BlueprintReadOnly)
+		FVector SpeedRightHandle;
+	UPROPERTY(BlueprintReadOnly)
+		FVector SpeedLeftHandle;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		FVector FinalRightHandLoc;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+		FVector FinalLeftHandLoc;
 	UFUNCTION(BlueprintCallable)
 		void UpdateParameters();
 };

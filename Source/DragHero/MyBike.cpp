@@ -154,12 +154,12 @@ float AMyBike::GetFuel()
 TArray<FVector> AMyBike::GetSocketLocation()
 {
 	TArray<FVector> loc;
-	loc.Add(BikeMesh->GetSocketLocation("RightHandle"));
-	loc.Add(BikeMesh->GetSocketLocation("LeftHandle"));
-	loc.Add(riderMesh->GetSocketLocation("RightElbow"));
-	loc.Add(riderMesh->GetSocketLocation("LeftElbow"));
-	loc.Add(riderMesh->GetSocketLocation("RightFootRest"));
-	loc.Add(riderMesh->GetSocketLocation("LeftFootRest"));
+	loc.Add(BikeMesh->GetSocketLocation("RightHandle")); //0
+	loc.Add(BikeMesh->GetSocketLocation("LeftHandle")); //1
+	loc.Add(BikeMesh->GetSocketLocation("RightFootRest")); //2
+	loc.Add(BikeMesh->GetSocketLocation("LeftFootRest")); //3
+	loc.Add(BikeMesh->GetSocketLocation("SpeedRightHandle")); //4
+	loc.Add(BikeMesh->GetSocketLocation("SpeedLeftHandle")); //5
 	return loc;
 }
 
