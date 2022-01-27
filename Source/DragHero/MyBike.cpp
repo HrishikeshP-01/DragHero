@@ -19,6 +19,8 @@ AMyBike::AMyBike()
 	UCameraComponent* camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	camera->SetupAttachment(springArm);
 	springArm->SetupAttachment(RootComponent);
+	riderMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("RiderMesh"));
+	riderMesh->SetupAttachment(RootComponent);
 
 	// Gear system
 	gearToSpeedMapping.Init(0, maxGear);
@@ -54,6 +56,9 @@ void AMyBike::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	
 	InputComponent->BindAction("GearUp", IE_Pressed, this,&AMyBike::IncrementGear);
 	InputComponent->BindAction("GearDown", IE_Pressed, this, & AMyBike::DecrementGear);
+
+	InputComponent->BindAxis("LookUp", this, &AMyBike::LookUp);
+	InputComponent->BindAxis("LookRight", this, &AMyBike::LookRight);
 }
 
 void AMyBike::FindThrottle(float Axis)
@@ -151,5 +156,24 @@ TArray<FVector> AMyBike::GetSocketLocation()
 	TArray<FVector> loc;
 	loc.Add(BikeMesh->GetSocketLocation("RightHandle"));
 	loc.Add(BikeMesh->GetSocketLocation("LeftHandle"));
+	loc.Add(riderMesh->GetSocketLocation("RightElbow"));
+	loc.Add(riderMesh->GetSocketLocation("LeftElbow"));
+	loc.Add(riderMesh->GetSocketLocation("RightFootRest"));
+	loc.Add(riderMesh->GetSocketLocation("LeftFootRest"));
 	return loc;
+}
+
+float AMyBike::GetLean()
+{
+	return CurrentLeanAngle;
+}
+
+void AMyBike::LookUp(float Axis)
+{
+	springArm->AddRelativeRotation(FRotator(Axis, 0, 0));
+}
+
+void AMyBike::LookRight(float Axis)
+{
+	springArm->AddRelativeRotation(FRotator(0, Axis, 0));
 }

@@ -83,11 +83,16 @@ protected:
 	void DecrementGear();
 	void IncrementGear();
 
+	void LookUp(float Axis);
+	void LookRight(float Axis);
+
 protected:
 	UPROPERTY(EditAnywhere)
 		USkeletalMeshComponent* BikeMesh;
 	UPROPERTY(EditAnywhere)
 		USpringArmComponent* springArm;
+	UPROPERTY(EditAnywhere)
+		USkeletalMeshComponent* riderMesh;
 
 public:
 	float GetTCurrentSpeed();
@@ -95,6 +100,7 @@ public:
 	float GetMaxPossibleSpeed();
 	float GetSpeedInGearSpeedFormat();
 	float GetFuel();
+	float GetLean();
 	UFUNCTION(BlueprintCallable)
 		TArray<FVector> GetSocketLocation();
 
