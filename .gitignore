@@ -75,3 +75,6 @@ DerivedDataCache/*
 
 # Not going to include Asset files because of Github size limit
 Content/Bike/Assets/*
+Content/StarterContent/*
+Content/MSPresets/*
+Content/ModernCityEnvironment01/*

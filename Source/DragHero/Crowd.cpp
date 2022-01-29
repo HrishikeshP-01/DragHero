@@ -26,7 +26,7 @@ void ACrowd::Tick(float DeltaTime)
 
 void ACrowd::PopulateRow(USceneComponent* base, FVector offset)
 {
-	FTransform currentMeshTransform = base->GetComponentTransform();
+	FTransform currentMeshTransform = base->GetRelativeTransform();
 	for (int i = 0; i < rowCount; i++)
 	{
 		meshArray[0]->AddInstance(currentMeshTransform);

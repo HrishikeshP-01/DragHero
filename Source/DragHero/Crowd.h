@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "Components/HierarchicalInstancedStaticMeshComponent.h"
 #include "Crowd.generated.h"
 
 UCLASS()
@@ -25,7 +26,7 @@ public:
 
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		TArray<UInstancedStaticMeshComponent*> meshArray;
+		TArray<UHierarchicalInstancedStaticMeshComponent*> meshArray;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		int rowCount;
 
