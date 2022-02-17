@@ -18,6 +18,7 @@ Some of the features that have been implemented are:
 ## UI 
 * Both digital & analog UI systems have been implemented.
 * Digital system correctly mimics the Hero Xtreme 160R's panel.
+
 ![Analog](/Images/analog.png)
 ## Level
 * 100m track with huge stadium filled with NPCs
