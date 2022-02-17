@@ -8,10 +8,12 @@ Some of the features that have been implemented are:
 * Biker Bend
 * Triangle of light position
 * Speed based steer and rotation angles, etc.
+
 ![Triangle of Light](/Images/light.png)
 ## Crowd System
 * More than 1600 NPCs in a level to cheer or boo the player depending on how they play.
 * The system has been optimized to ensure that the frame rate remains high & smooth.
+
 ![Crowd](/Images/dragS3.png)
 ## UI 
 * Both digital & analog UI systems have been implemented.
@@ -20,4 +22,5 @@ Some of the features that have been implemented are:
 ## Level
 * 100m track with huge stadium filled with NPCs
 * Rightly mimics the international drag race setting.
+
 ![Click here to watch the demo video](https://youtu.be/c0HEYee6l9g)
